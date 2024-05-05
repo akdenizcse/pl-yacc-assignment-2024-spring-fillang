@@ -16,16 +16,16 @@
 "fun"                   { printf("FUN_KEYWORD\n"); return FUN_KEYWORD; }
 "void"                  { printf("VOID_KEYWORD\n"); return VOID_KEYWORD; }
 "return"                { printf("RETURN_KEYWORD\n"); return RETURN_KEYWORD; }
-"=="                    { printf("CONDITIONAL_OPRT: ==\n"); return CONDITIONAL_OPRT; }
-"!="                    { printf("CONDITIONAL_OPRT: !=\n"); return CONDITIONAL_OPRT; }
-"<"                     { printf("CONDITIONAL_OPRT: <\n"); return CONDITIONAL_OPRT; }
-">"                     { printf("CONDITIONAL_OPRT: >\n"); return CONDITIONAL_OPRT; }
-"<="                    { printf("CONDITIONAL_OPRT: <=\n"); return CONDITIONAL_OPRT; }
-">="                    { printf("CONDITIONAL_OPRT: >=\n"); return CONDITIONAL_OPRT; }
-"*"                     { printf("MULTIPLICATION_OPRT: *\n"); return MULTIPLICATION_OPRT; }
-"/"                     { printf("MULTIPLICATION_OPRT: /\n"); return MULTIPLICATION_OPRT; }
-"+"                     { printf("ARITHMETIC_OPRT: +\n"); return ARITHMETIC_OPRT; }
-"-"                     { printf("ARITHMETIC_OPRT: -\n"); return ARITHMETIC_OPRT; }
+"=="                    { printf("EQUAL: ==\n"); return EQUAL; }
+"!="                    { printf("NOT_EQUAL: !=\n"); return NOT_EQUAL; }
+"<"                     { printf("LESS_THAN: <\n"); return LESS_THAN; }
+">"                     { printf("GREATER_THAN: >\n"); return GREATER_THAN; }
+"<="                    { printf("LESS_OR_EQUAL: <=\n"); return LESS_OR_EQUAL; }
+">="                    { printf("GREATER_OR_EQUAL: >=\n"); return GREATER_OR_EQUAL; }
+"*"                     { printf("MULTIPLY: *\n"); return MULTIPLY; }
+"/"                     { printf("DIVIDE: /\n"); return DIVIDE; }
+"+"                     { printf("PLUS: +\n"); return PLUS; }
+"-"                     { printf("MINUS: -\n"); return MINUS; }
 "="                     { printf("ASSIGNMENT_OPRT\n"); return ASSIGNMENT_OPRT; }
 "("                     { printf("LEFT_PARENT\n"); return LEFT_PARENT; }
 ")"                     { printf("RIGHT_PARENT\n"); return RIGHT_PARENT; }
@@ -34,7 +34,6 @@
 ","                     { printf("COMMA\n"); return COMMA; }
 ";"                     { printf("SEMICOLON\n"); return SEMICOLON; }
 true|false              { printf("BOOLEAN_LITERAL: %s\n", yytext); return BOOLEAN_LITERAL; }
-"``".*                  { printf("COMMENT\n"); /* Ignore comments */ }
 [a-zA-Z_][a-zA-Z0-9_]*  { printf("IDENTIFIER: %s\n", yytext); return IDENTIFIER; }
 [0-9]+                  { printf("INTEGER_LITERAL: %s\n", yytext); return INTEGER_LITERAL; }
 [0-9]+"."[0-9]+         { printf("FLOATING_LITERAL: %s\n", yytext); return FLOATING_LITERAL; }
@@ -42,6 +41,7 @@ true|false              { printf("BOOLEAN_LITERAL: %s\n", yytext); return BOOLEA
 '.'                     { printf("CHAR_LITERAL: %s\n", yytext); return CHAR_LITERAL; }
 [ \t]+                  {;}
 .                       { printf("ERROR\n"); return ERROR; } // Catch any other character as an error
+"```".*                  { printf("COMMENT\n"); /* Ignore comments */ }
 "```"([^`]*|[\n]*)"```" { printf("COMMENT_BLOCK\n"); /* Ignore comments */ }
 "&&"                       { printf("AND_CONDITION: \n"); return AND_CONDITION; }
 "||"                       { printf("OR_CONDITION: \n"); return OR_CONDITION; }
