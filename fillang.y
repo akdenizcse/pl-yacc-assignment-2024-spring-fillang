@@ -65,7 +65,56 @@ void update_var(int val, char* identifier,struct Symbol *vars);
 %type<integer> LITERAL
 %type<integer> LOGICAL_CONDITION
 
-
+%%
+ 
+ 
+STATEMENTS: STATEMENT
+       |
+       | STATEMENTS STATEMENT
+       ;
+ 
+STATEMENT: DECLARATION   
+         | ASSIGNMENT
+         | IF_STATEMENT
+         | WHILE_STATEMENT
+         | BLOCK
+         | COMMENT
+         | FUNCTION
+         ;
+ 
+DECLARATION: TYPE IDENTIFIER EQUAL EXPRESSION SEMICOLON   {add_variable($1,$2,$4,symbols);}     
+           ;
+ 
+ASSIGNMENT: IDENTIFIER EQUAL EXPRESSION SEMICOLON           {
+            update_var($3,$1,symbols);
+          }
+          ;
+ 
+IF_STATEMENT: IF_KEYWORD LEFT_PARENT CONDITION_SEQUENCE RIGHT_PARENT BLOCK
+            | IF_STATEMENT ELSE_BLOCK
+            | IF_STATEMENT ELSEIF_BLOCKS
+            | IF_STATEMENT ELSEIF_BLOCKS ELSE_BLOCK
+            ;
+ 
+ELSE_BLOCK: ELSE_KEYWORD LEFT_BRACE STATEMENT_LIST RIGHT_BRACE
+ 
+ELSEIF_BLOCKS: ELSEIF_BLOCK
+            | ELSEIF_BLOCKS ELSEIF_BLOCK
+            
+ 
+ELSEIF_BLOCK: ELSE_IF_KEYWORD LEFT_PARENT CONDITION_SEQUENCE RIGHT_PARENT BLOCK
+           ;
+ 
+WHILE_STATEMENT: WHILE_KEYWORD LEFT_PARENT CONDITION_SEQUENCE RIGHT_PARENT BLOCK
+               ;
+ 
+BLOCK: LEFT_BRACE STATEMENT_LIST RIGHT_BRACE
+     | LEFT_BRACE STATEMENT_LIST RETURN_KEYWORD RIGHT_BRACE
+     ;
+ 
+STATEMENT_LIST: STATEMENT
+               | STATEMENT_LIST STATEMENT
+               ;
 
 void add_variable(char *type, char *identifier, int value, struct Symbol *vars) {
         if(total_variables >= MAX_VARIABLE_NUMBER){
