@@ -1,12 +1,16 @@
-calc: lex.yy.c y.tab.c
-	gcc -g lex.yy.c y.tab.c -o calc
+# use simply "make"
+# to clean use "make clean"
 
-lex.yy.c: y.tab.c calc.l
-	lex calc.l
+TARGET = my_scanner
+C_SRC = my_scanner.c
 
-y.tab.c: calc.y
-	yacc -d calc.y
+LEX_FILE = fillang.l
+LEX_GEN = lex.yy.c
 
-clean: 
-	rm -rf lex.yy.c y.tab.c y.tab.h calc calc.dSYM
+my_scanner: $(LEX_FILE)
+	lex $(LEX_FILE)
+	gcc $(C_SRC) $(LEX_GEN) -o $(TARGET)
 
+clean:
+	rm $(TARGET) $(LEX_GEN)
+ 

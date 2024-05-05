@@ -1,0 +1,35 @@
+int x = 10;
+int z = 36;
+float y = 3.14;
+bool is_valid = true;
+bool not_valid = false;
+char fil = 'i';
+char c = 'a';
+str message = "Hello, world!";
+str message2 = " fillang project is finished";
+int calc = z - x;
+
+if (x > 5) {
+   x= x-z;
+} else{ 
+bool is_valid = false;}
+
+if( is_valid == true){
+float condition = 22-15.7;}
+else {
+not_valid = true;
+x = x + 5;}
+ 
+while (x > 0) {
+    x = x - 1;
+}
+fun void sumcalc(int a,int b){
+int sum = a + b;}
+
+
+if(sum<101){
+int ok = 33;
+}
+else{
+int lock = 51;
+}

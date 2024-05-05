@@ -1,35 +1,88 @@
-# pl-yacc-starter-kit
+# Programming Language fillang
 
-This is a logic language which allows only conjunction and printing the result.
+Group Members: Haydar Köse - 20200808009
+Enver Untuç - 20200808047
+Emirhan Duman - 20200808021
+Samed Nayki - 20200808015
 
-\<program\> : \<stmts\>
+## Syntax
+<sign> ::= "+" | "-"
 
-\<stmts\> : \<stmt\>
-	| \<stmt\> ; \<stmts\>
+<digit> ::="0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
-\<stmt\> : print \<expr\>;
-	| \<assign\>;
+<nonzero> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
-\<assign\> : \<lhs\> = \<rhs\>;
+<integer> ::= [ <sign> ] (<digit> | <nonzero>{<digit>}) 
 
-\<lhs\> : \<var\>
+<float> ::= [ <sign> ] <integer> "." { <digit> }
 
-\<rhs\> : \<var\>
-	| \<expr\>
+<letter> ::="a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" 
+| "l" | "m" | "n" | "o" | "p" | "r" | "s" | "t" | "u" | "v" | "y" | "z" 
+| "w" | "x" | | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" 
+| "K" | "L" | "M" | "N" | "O" | "P" | "R" | "S" | "T" | "U" | "V" | "Y" 
+| "Z" | "W" | "X"
 
-\<var\> : [a-zA-Z][a-zA-Z0-9_]*
+<word> ::= <letter>{<letter>}
 
-\<expr\> : \<expr\> 
-	| \<expr\> and \<expr\>
-	| ( \<expr\> and \<expr\> )
+<symbol> ::= "!" | """ | "#" | "$" | "%" | "&" | "'" | "(" | ")" 
+| "*" | "+" | | "-" | "." | "/" | ":" | ";" | "<" | "=" | ">" | "?" | "@" 
+| "[" | "" | "]" | "^" | "_" | "`" | "{" | "|" | "}" | "~" | 
 
+<char> ::= "'"<any_character>"'"
 
-## Running instructions:
+<string> ::= '"'{<character>}'"'
 
-> make
+<boolean> ::= "true" | "false"
 
-> ./calc < example.ext
+<type> ::= "int" | "float" | "bool" | "str" | "char"
 
-...(some output)...
+<conditionalOprt> ::= "==" | "!=" | "<" | ">" | "<=" | ">="
 
-> make clean
+<multiplicationOprt> ::= "*" | "/"
+
+<arithmaticOprt> ::= "+" | "-"
+
+<operator> ::= "*" | "/" | "+" | "-"
+
+<literal> ::= <integer> | <string> | <float> | <boolean>
+
+<identifier> ::= (<letter>|"") ({<letter>} | {<digit>} | {})
+
+<expression> ::= <literal> {<operator><literal>}
+
+<variable> ::= <type> <identifier>
+
+<parameter> ::= <type> <identifier>
+
+<declaration> ::= <variable> "=" <expression>
+
+<assignment> ::= <identifier> "=" <expression>
+
+<condition> ::= [!] (<literal> | <identifier>) <conditionalOprt> (<literal> | <identifier>) 
+
+<condition-sequance> ::= <condition> {("&&" | "||") <condition>} 
+
+<statement> ::= <declaration> | <assignment> | <if-statement> 
+        | <while-statement> | <block> 
+
+<block> ::= <statement>{<statement>}
+
+<if-statement> ::= "if" "(" <condition-sequance> ")" "{" <block "}" 
+			{ "elseif" "("<condition-sequance>")" "{" <block "}" }
+			["else" "{" <block> "}"]
+
+<while-statement> ::= "while" "(" <condition-sequance> ")" "{" <block> "}"
+
+<comment> ::= "``" {<anycharacter>} | "" {<_anycharacter_>} ""
+
+<functions> ::= "fun" (<type> | "void") <identifier> "("{<parameter>}")" "{" <block> "}"
+
+## Explanations about the language
+
+- Takes a file with extension .fil
+- Has if, else if, else, while, integer, float, string, char, function definitions, declaring variables, comparing operators, && and || logic operators, commenting.
+
+- You can run your program by running the makefile and giving it to myscanner as input:
+
+make
+./my_scanner exampleprog1.fil
