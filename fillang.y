@@ -116,6 +116,57 @@ STATEMENT_LIST: STATEMENT
                | STATEMENT_LIST STATEMENT
                ;
 
+               LOGICAL_CONDITION : EXPRESSION LESS_THAN EXPRESSION {$$ = $1 < $3;}
+                 | LITERAL GREATER_THAN EXPRESSION {$$ = $1 > $3;}
+                 | LITERAL EQUAL EXPRESSION {$$ = $1 == $3;}
+                 | EXPRESSION NOT_EQUAL EXPRESSION {$$ = $1 != $3;}
+                 | EXPRESSION LESS_OR_EQUAL EXPRESSION {$$ = $1 <= $3;}
+                 | EXPRESSION GREATER_OR_EQUAL EXPRESSION {$$ = $1 >= $3;}
+                 ;
+
+CONDITION_SEQUENCE: LOGICAL_CONDITION
+                   | CONDITION_SEQUENCE AND LOGICAL_CONDITION
+                   | CONDITION_SEQUENCE OR LOGICAL_CONDITION
+                   ;
+
+EXPRESSION: LITERAL 
+          | EXPRESSION PLUS EXPRESSION {$$ = $<integer>1 + $<integer>3;}
+          | EXPRESSION MINUS EXPRESSION {$$ = $1 - $3;}
+          | EXPRESSION DIVIDE EXPRESSION {$$ = $1 / $3;}
+          | EXPRESSION MULTIPLY EXPRESSION {$$ = $1 * $3;}
+          
+          ;
+
+LITERAL: INTEGER 
+       | FLOAT  
+       | STRING 
+       | BOOLEAN 
+       | CHARACTER
+       ;
+
+
+
+
+FUNCTION: RETURN_TYPE IDENTIFIER LEFT_PARENT PARAMETER_LIST RIGHT_PARENT BLOCK
+        ;
+
+RETURN_TYPE: TYPE
+            | VOID
+            ;
+
+
+RETURN_STATEMENT: RETURN LITERAL SEMICOLON   
+                | RETURN SEMICOLON 
+
+PARAMETER_LIST: PARAMETER
+              | PARAMETER_LIST COMMA PARAMETER
+              ;
+
+PARAMETER: TYPE IDENTIFIER
+         ;
+
+%%
+
 void add_variable(char *type, char *identifier, int value, struct Symbol *vars) {
         if(total_variables >= MAX_VARIABLE_NUMBER){
                 printf("Exceeded maximum number of variables!");
